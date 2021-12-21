@@ -3,6 +3,6 @@ IoT project for home automation
 
 # Installation
 
- '''
- chmod +x webcam.sh
- '''
+  ```
+  chmod +x webcam.sh
+  ```
