@@ -164,7 +164,7 @@ def main():
                             }
                             }
                     ]
-                    client.write_points(json_temp)
+                    client.write_points(json_hic)
                 else:
                     print(line)
 if __name__ == '__main__':
