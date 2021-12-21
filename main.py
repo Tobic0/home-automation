@@ -2,13 +2,17 @@
 import serial
 import logging
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-###
+from influxdb import InfluxDBClient
+#####
 import os
 import datetime
 import sys
 import time
 import subprocess
-###
+####
+
+#Logging to Grafana
+client = InfluxDBClient(host='192.168.0.183', port=8086, username='grafana', password='1954', database='home')
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 logger = logging.getLogger(__name__)
@@ -62,11 +66,12 @@ def light_off(update, context):
 
 def alarm_on(update, context):
     setAlarm(1)
-    update.message.reply_text("Your alarm system has been activated!")
+    update.message.reply_text("You alarm system has been activated!")
 
 def alarm_off(update, context):
     setAlarm(0)
-    update.message.reply_text("Your alarm system has been deactivated!")
+    update.message.reply_text("You alarm system has been deactivated!")
+
 
 def main():
     # --- TELEGRAM BOT SECTION ---
@@ -110,26 +115,57 @@ def main():
                 updater.dispatcher.bot.sendMessage(chat_id='960135971', text='\uD83D\uDEA8 Someone has entered your house!')
                 updater.dispatcher.bot.sendMessage(chat_id='183831737', text='\uD83D\uDEA8 Someone has entered your house!')
 
-                #Read absolute path
+		# read the absolute path
                 script_dir = os.path.dirname(__file__)
-                #Call the .sh script to capture the image
+		# call the .sh to capture the image
                 os.system('./webcam.sh')
-                #Get the date and time and set them as a filename
+		#get the date and time, set the date and time as a filename.
                 currentdate = datetime.datetime.now().strftime("%Y-%m-%d_%H%M")
-                #Create real path
-                rel_path = currentdate + ".jpg"
-                #Join the absolute path and created file name
+		# create the real path
+                rel_path = currentdate +".jpg"
+		#  join the absolute path and created file name
                 abs_file_path = os.path.join(script_dir, rel_path)
                 print(abs_file_path)
                 updater.dispatcher.bot.send_photo(chat_id='960135971', photo=open(abs_file_path, 'rb'))
                 updater.dispatcher.bot.send_photo(chat_id='183831737', photo=open(abs_file_path, 'rb'))
-
             else:
                 f=open("testfile.txt", "w+")
                 f.write(line)
                 f.close()
-                print(line)
-
+                #Get
+                first_chars = line[0:3]
+                if first_chars == "HUM":
+                    print("Humidity: ", line[3:])
+                    json_hum = [
+                        {
+                            "measurement": "humidity",
+                            "fields":{
+                                "value": int(line[3:5])
+			    }
+                         }
+                    ]
+                    client.write_points(json_hum)
+                elif first_chars == "TEM":
+                    json_temp = [
+                        {
+                            "measurement": "temperature",
+                            "fields":{
+                                "value": int(line[3:5])
+                            }
+                         }
+                    ]
+                    client.write_points(json_temp)
+                elif first_chars == "TEM":
+                    json_hic = [
+                        {
+                            "measurement": "heatindex",
+                            "fields":{
+                                "value": int(line[3:5])
+                            }
+                            }
+                    ]
+                    client.write_points(json_temp)
+                else:
+                    print(line)
 if __name__ == '__main__':
     main()
-
