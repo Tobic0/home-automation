@@ -155,7 +155,7 @@ def main():
                          }
                     ]
                     client.write_points(json_temp)
-                elif first_chars == "TEM":
+                elif first_chars == "HIC":
                     json_hic = [
                         {
                             "measurement": "heatindex",
