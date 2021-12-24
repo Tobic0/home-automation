@@ -6,7 +6,7 @@ IoT project for home automation
   ```
   chmod +x webcam.sh
   ```
-# Setup
+# Raspberry Setup
 To install InfluxDB add Influx repositories to apt:
   ```
  wget -qO- https://repos.influxdata.com/influxdb.key | sudo apt-key add -
@@ -57,6 +57,8 @@ Grafana is now running on the machine and is accessible from any device on the l
 Open a browser and go to http://'ipaddress':3000, where the IP address is the address that you used to connect to the Raspberry Pi.
 
 Access the Grafana login page with the default username admin, and the default password admin.
+
+Create a dashboard adding the graphs you need, remembering to select Influx as Grafana's data source. 
   
   
   
