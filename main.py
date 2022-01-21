@@ -17,6 +17,8 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 logger = logging.getLogger(__name__)
 
+publishedData = [0, 0] #Temperature + Humidity
+
 def changeLED(x):
     ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
     ser.flush()
@@ -42,11 +44,7 @@ def start(update, context):
     update.message.reply_text("Hi, I'm your IoT bot!\n\n Control lights with: \n\t/lighton & /lightoff \n\n Control alarm: \n\t/alarmon & /alarmoff")
 
 def help(update, context):
-    update.message.reply_text('Help!')
-
-def echo(update, context):
-    update.message.reply_text(update.message.chat_id)
-    print("msg:" + update.message.text)
+    update.message.reply_text('Current commands: \n /lighton \n /lightoff \n /temp \n /alarmon \n /alarmoff')
 
 def error(update, context):
     logger.warning('Update "%s" caused error "%s"', update, context.error)
@@ -71,6 +69,9 @@ def alarm_on(update, context):
 def alarm_off(update, context):
     setAlarm(0)
     update.message.reply_text("You alarm system has been deactivated!")
+	
+def temp(update, context):
+    update.message.reply_text("Temp: " + str(publishedData[0]) + "Hum: " + str(publishedData[1]))
 
 
 def main():
@@ -135,7 +136,7 @@ def main():
                 #Get
                 first_chars = line[0:3]
                 if first_chars == "HUM":
-                    print("Humidity: ", line[3:])
+                    publishedData[1] = int(line[3:5])
                     json_hum = [
                         {
                             "measurement": "humidity",
@@ -146,6 +147,7 @@ def main():
                     ]
                     client.write_points(json_hum)
                 elif first_chars == "TEM":
+		    publishedData[0] = int(line[3:5])
                     json_temp = [
                         {
                             "measurement": "temperature",
