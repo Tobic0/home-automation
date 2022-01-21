@@ -4,7 +4,6 @@ IoT project for home automation
 # Installation
 
   ```
-  chmod +x main.sh
   chmod +x webcam.sh
   ```
 # Raspberry Setup
