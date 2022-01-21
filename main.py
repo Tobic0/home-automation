@@ -71,7 +71,7 @@ def alarm_off(update, context):
     update.message.reply_text("You alarm system has been deactivated!")
 	
 def temp(update, context):
-    update.message.reply_text("Temp: " + str(publishedData[0]) + "Hum: " + str(publishedData[1]))
+    update.message.reply_text("Temp: " + str(publishedData[0]) + "\nHum: " + str(publishedData[1]))
 
 
 def main():
