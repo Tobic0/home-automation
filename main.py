@@ -147,7 +147,7 @@ def main():
                     ]
                     client.write_points(json_hum)
                 elif first_chars == "TEM":
-		    publishedData[0] = int(line[3:5])
+                    publishedData[0] = int(line[3:5])
                     json_temp = [
                         {
                             "measurement": "temperature",
