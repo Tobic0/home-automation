@@ -1,12 +1,25 @@
 # home-automation
-IoT project for home automation
+This is an IoT project for home automation that include an Arduino and a Raspberry working together.  
+The Arduino Uno collects data from sensors and can start many smart routine.  
+The Raspberry shows the arduino data thanks to InfluxDB and Grafana. It also works as an alarm system,
+when a movement is detected from the motion sensor, it takes a picture and sends it, with an advice, to your telegram bot.
 
-# Installation
+## Get Started
+* [Installation](#Installation)
+* [Raspberry Setup](#Raspberry-Setup)
+* [Arduino Setup](#Arduino-Setup)
+
+## Installation
 
   ```
   chmod +x webcam.sh
   ```
-# Raspberry Setup
+  ```
+  pip install psutil && chmod +x rpi-stats.py
+  ```
+  
+  
+## Raspberry Setup
 To install InfluxDB add Influx repositories to apt:
   ```
  wget -qO- https://repos.influxdata.com/influxdb.key | sudo apt-key add -
@@ -52,16 +65,13 @@ Enable the service and set to run at boot:
   sudo systemctl start grafana-server
   sudo systemctl enable grafana-server.service
   ```
-Grafana is now running on the machine and is accessible from any device on the local network.
-
-Open a browser and go to http://'ipaddress':3000, where the IP address is the address that you used to connect to the Raspberry Pi.
-
-Access the Grafana login page with the default username admin, and the default password admin.
-
+Grafana is now running on the machine and is accessible from any device on the local network.  
+Open a browser and go to http://'ipaddress':3000, where the IP address is the address that you used to connect to the Raspberry Pi.  
+Access the Grafana login page with the default username admin, and the default password admin.  
 Create a dashboard adding the graphs you need, remembering to select Influx as Grafana's data source. 
   
-  
-  
-  
-  
+## Arduino Setup
+Connect the DTH11 to Digital PIN2 and the InfraRed sensor to the 3rd PIN.  
+Load the sketch and connect the arduino directly to the raspberry.  
+Obviously you can add any sensor you want,remembering to update the files to make them capable to read the data and show them on Grafana.
   
