@@ -129,9 +129,6 @@ def main():
                 updater.dispatcher.bot.send_photo(chat_id='960135971', photo=open(abs_file_path, 'rb'))
                 updater.dispatcher.bot.send_photo(chat_id='183831737', photo=open(abs_file_path, 'rb'))
             else:
-                f=open("testfile.txt", "w+")
-                f.write(line)
-                f.close()
                 #Get
                 first_chars = line[0:3]
                 if first_chars == "HUM":
