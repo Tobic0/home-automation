@@ -123,8 +123,7 @@ def main():
 		#  join the absolute path and created file name
                 abs_file_path = os.path.join(script_dir, rel_path)
                 print(abs_file_path)
-                updater.dispatcher.bot.send_photo(chat_id='960135971', photo=open(abs_file_path, 'rb'))
-                updater.dispatcher.bot.send_photo(chat_id='183831737', photo=open(abs_file_path, 'rb'))
+                updater.dispatcher.bot.send_photo(chat_id= UserChatID, photo=open(abs_file_path, 'rb'))					# Set a chat id to send the photo to only the specified user
             else:
                 #Get
                 first_chars = line[0:3]
