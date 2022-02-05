@@ -3,16 +3,14 @@ import serial
 import logging
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from influxdb import InfluxDBClient
-#####
 import os
 import datetime
 import sys
 import time
 import subprocess
-####
 
 #Logging to Grafana
-client = InfluxDBClient(host='192.168.0.183', port=8086, username='grafana', password='1954', database='home')
+client = InfluxDBClient(host='192.168.0.183', port=8086, username='grafana', password='1954', database='home')		# Set your local ip, port, username, password and database of grafana server
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 logger = logging.getLogger(__name__)
@@ -76,7 +74,7 @@ def temp(update, context):
 
 def main():
     # --- TELEGRAM BOT SECTION ---
-    updater = Updater("2119154414:AAGDm4oNWSLkx6btm_qgJzB7wcj5reQfHWg", use_context=True)
+    updater = Updater(BOT_TOKEN, use_context=True)		# Insert telegram bot token
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
@@ -112,8 +110,7 @@ def main():
             line = ser.readline().decode('utf-8').rstrip()
             if line == "MOTION_DETECTED":
                 #Send msg using telegram bot
-                updater.dispatcher.bot.sendMessage(chat_id='960135971', text='\uD83D\uDEA8 Someone has entered your house!')
-                updater.dispatcher.bot.sendMessage(chat_id='183831737', text='\uD83D\uDEA8 Someone has entered your house!')
+                updater.dispatcher.bot.sendMessage(chat_id= UserChatID, text='\uD83D\uDEA8 Someone has entered your house!')		# Set a chat id to send a message to only the specified user
 
 		# read the absolute path
                 script_dir = os.path.dirname(__file__)
