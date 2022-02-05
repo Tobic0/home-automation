@@ -71,4 +71,7 @@ Create a dashboard adding the graphs you need, remembering to select Influx as G
 Connect the DTH11 to Digital PIN2 and the InfraRed sensor to the 3rd PIN.  
 Load the sketch and connect the arduino directly to the raspberry.  
 Obviously you can add any sensor you want,remembering to update the files to make them capable to read the data and show them on Grafana.
+
+## Before using
+You need to set your telegram bot token inside the main.py script togheter with a chat id to send the photo to only a specified chat id. You also need to set the correct parameters for connecting to the grafan server
   
